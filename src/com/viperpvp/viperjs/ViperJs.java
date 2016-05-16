@@ -7,10 +7,13 @@ import com.viperpvp.viperjs.backend.req.ViperEventExecutor;
 import com.viperpvp.viperjs.backend.unsafe.CommandRegistration;
 import com.viperpvp.viperjs.commands.ScriptCommand;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import javax.script.*;
 import java.io.*;
@@ -57,7 +60,7 @@ public class ViperJs extends JavaPlugin {
     public void loadScript(String scriptName) {
         File file = new File(getDataFolder() + "/scripts", scriptName + ".js");
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             System.out.println("Cannot load script: " + file.getName() + " as it does not exist!");
             return;
         }
@@ -150,6 +153,22 @@ public class ViperJs extends JavaPlugin {
                 getLogger().log(Level.WARNING, ex.getMessage());
             }
         });
+    }
+
+    public BukkitTask runSyncTimer(Runnable run, int delay, int ticks) {
+        return Bukkit.getServer().getScheduler().runTaskTimer(this, run, delay, ticks);
+    }
+
+    public BukkitTask runAsyncTimer(Runnable run, int delay, int ticks) {
+        return Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(this, run, delay, ticks);
+    }
+
+    public BukkitTask runTaskLater(Runnable run, int later) {
+        return Bukkit.getServer().getScheduler().runTaskLater(this, run, later);
+    }
+
+    public BukkitTask runAsyncTaskLater(Runnable run, int later) {
+        return Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(this, run, later);
     }
 
     public PluginCommand registerCommand(String cmd, String function) {
