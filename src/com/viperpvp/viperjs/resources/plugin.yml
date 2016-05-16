@@ -1,0 +1,10 @@
+name: ViperJs
+main: com.viperpvp.viperjs.ViperJs
+version: 1.0
+description: test
+commands:
+  viperjs:
+    description: ViperJs Management Command.
+permissions:
+  viperjs.use:
+    description: ViperJs default perm.
