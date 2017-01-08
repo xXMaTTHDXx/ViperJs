@@ -1,9 +1,10 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="ViperJs:jar">
-    <output-path>$USER_HOME$/Desktop</output-path>
+    <output-path>$USER_HOME$/Desktop/Server/plugins</output-path>
     <root id="archive" name="ViperJs.jar">
       <element id="module-output" name="ViperJs" />
       <element id="file-copy" path="$PROJECT_DIR$/src/com/viperpvp/viperjs/resources/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/viperpvp/viperjs/resources/config.yml" />
     </root>
   </artifact>
 </component>
