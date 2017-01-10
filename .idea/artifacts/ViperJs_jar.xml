@@ -5,6 +5,7 @@
       <element id="module-output" name="ViperJs" />
       <element id="file-copy" path="$PROJECT_DIR$/src/com/viperpvp/viperjs/resources/plugin.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/src/com/viperpvp/viperjs/resources/config.yml" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongo-java-driver/3.2.2/mongo-java-driver-3.2.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

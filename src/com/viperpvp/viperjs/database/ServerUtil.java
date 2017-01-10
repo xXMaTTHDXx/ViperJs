@@ -4,6 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.viperpvp.viperjs.ViperJs;
 import org.bukkit.entity.Player;
 
@@ -17,13 +18,19 @@ public class ServerUtil {
         DATABASE
      */
     public int getCurrentPlayers(String serverName) {
-        DBCursor cursor = ViperJs.manager.getMongo().getDB("Velocity").getCollection("servers").find(new BasicDBObject("id", serverName));
-        return (int) cursor.getQuery().get("count");
+        DBObject query = new BasicDBObject("_id", ViperJs.get().getConfig().getString("servername"));
+
+
+        DBCursor cursor = ViperJs.manager.getCollection("servers").find(query);
+        return (int) cursor.one().get("playerCount");
     }
 
     public int getMaxPlayers(String serverName) {
-        DBCursor cursor = ViperJs.manager.getMongo().getDB("Velocity").getCollection("servers").find(new BasicDBObject("id", serverName));
-        return (int) cursor.getQuery().get("max");
+        DBObject query = new BasicDBObject("_id", ViperJs.get().getConfig().getString("servername"));
+
+
+        DBCursor cursor = ViperJs.manager.getCollection("servers").find(query);
+        return (int) cursor.one().get("maxPlayers");
     }
 
     /*

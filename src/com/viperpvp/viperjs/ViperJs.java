@@ -6,7 +6,11 @@ import com.viperpvp.viperjs.backend.req.ViperEventExecutor;
 import com.viperpvp.viperjs.backend.script.ScriptInstance;
 import com.viperpvp.viperjs.commands.ScriptCommand;
 import com.viperpvp.viperjs.database.MongoDatabaseManager;
+import com.viperpvp.viperjs.database.ServerUtil;
+import com.viperpvp.viperjs.listeners.PlayerJoin;
+import com.viperpvp.viperjs.listeners.PlayerQuit;
 import jdk.internal.dynalink.beans.StaticClass;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
@@ -26,6 +30,7 @@ import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.script.*;
@@ -243,7 +248,11 @@ public class ViperJs extends JavaPlugin {
         });
 
         manager = new MongoDatabaseManager();
-        manager.connect("", 1111);
+        manager.connect("localhost", 27017);
+
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new PlayerJoin(), this);
+        pm.registerEvents(new PlayerQuit(), this);
 
         try {
             init();
@@ -301,6 +310,8 @@ public class ViperJs extends JavaPlugin {
                     bindings.put("events", eventNames);
                     bindings.put("manager", instance.getScriptManager());
                     bindings.put("exports", instance.getJsonVariables());
+                    bindings.put("db", manager);
+                    bindings.put("serverutil", new ServerUtil());
                     addGlobalBindings(bindings);
                     script.eval(bindings);
                     allScripts.add(instance);
@@ -330,7 +341,7 @@ public class ViperJs extends JavaPlugin {
     public StaticClass toNashornClass(Class<?> clazz) {
         StaticClass o = null;
         try {
-            Class<?> cl = Class.forName("jdk.internal.dynalink.beans.StaticClass");
+            Class<?> cl = Class.forName("jdk.internal.dynalink.beans.StaticClass"); //Remove reference to internal
             Constructor<?> constructor = cl.getDeclaredConstructor(Class.class);
 
             constructor.setAccessible(true);
@@ -348,6 +359,7 @@ public class ViperJs extends JavaPlugin {
         b.put("Material", toNashornClass(Material.class));
         b.put("ItemStack", toNashornClass(ItemStack.class));
         b.put("InventoryType", toNashornClass(InventoryType.class));
+        b.put("System", System.class);
     }
 
     @Override
