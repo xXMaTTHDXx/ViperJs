@@ -13,6 +13,7 @@ import jdk.internal.dynalink.beans.StaticClass;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.EnchantItemEvent;
@@ -269,6 +270,8 @@ public class ViperJs extends JavaPlugin {
     }
 
     public void handleDir(File dir) {
+        if (!dir.exists()) return;
+
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) {
 
@@ -359,7 +362,7 @@ public class ViperJs extends JavaPlugin {
         b.put("Material", toNashornClass(Material.class));
         b.put("ItemStack", toNashornClass(ItemStack.class));
         b.put("InventoryType", toNashornClass(InventoryType.class));
-        b.put("System", System.class);
+        b.put("Enchantment", toNashornClass(Enchantment.class));
     }
 
     @Override

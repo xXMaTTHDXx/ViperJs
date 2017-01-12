@@ -49,11 +49,20 @@ public class MongoDatabaseManager {
         return db;
     }
 
-    public void insert(DBCollection col, String json) {
-        col.insert((DBObject[]) JSON.parse(json));
+    /*
+        NASHORN
+     */
+
+    public void insert(String colName, String json) {
+        db.getCollection(colName).insert((DBObject[]) JSON.parse(json));
     }
 
-    public String find(DBCollection col, String toFind) {
-        return JSON.serialize(col.find((DBObject) JSON.parse(toFind)));
+    public DBObject getDBObject(String col, String id) {
+        DBObject query = new BasicDBObject("_id", id);
+        return db.getCollection(col).find(query).one();
+    }
+
+    public String find(String colName, String toFind) {
+        return JSON.serialize(db.getCollection(colName).find((DBObject) JSON.parse(toFind)));
     }
 }

@@ -18,7 +18,7 @@ public class ServerUtil {
         DATABASE
      */
     public int getCurrentPlayers(String serverName) {
-        DBObject query = new BasicDBObject("_id", ViperJs.get().getConfig().getString("servername"));
+        DBObject query = new BasicDBObject("_id", serverName);
 
 
         DBCursor cursor = ViperJs.manager.getCollection("servers").find(query);
@@ -26,7 +26,7 @@ public class ServerUtil {
     }
 
     public int getMaxPlayers(String serverName) {
-        DBObject query = new BasicDBObject("_id", ViperJs.get().getConfig().getString("servername"));
+        DBObject query = new BasicDBObject("_id", serverName);
 
 
         DBCursor cursor = ViperJs.manager.getCollection("servers").find(query);
